@@ -1,13 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Giphy-App</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Giphy-App</title>
 </head>
+
 <body>
-    <header>Look for your favorite band!</header>
+  <div class="container">
+
+    <h1>Check your favorite band!</h1>
+    <br>
+    <form id="band-form">
+      <input type="text" id="band-input">
+      <!-- Button triggers new band to be added -->
+      <input id="add-band" type="submit" value="Add your band">
+    </form><br>
+
+    <div id="buttons-view">
+
+
+    <!-- <header>Look for your favorite band!</header> -->
     <button data-band="Nirvana">Smell like teen spirit</button>
     <button data-band="Metallica">Wiskey in the jar</button>
     <button data-band="Ramones">Shenna is a punk rocker</button>
@@ -17,73 +32,72 @@
     <button data-band="Rammstein">Du Hust</button>
     <button data-band="Korn">Falling away from me</button>
     <button data-band="The Clash">Tommy Gun</button>
-
+    </div>
     <div id="gifs-appear-here">
-        </div>
-      
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script type="text/javascript">
-        
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script type="text/javascript">
+
         // Event listener for all button elements
-    $("button").on("click", function() {
-      // In this case, the "this" keyword refers to the button that was clicked
-      var band = $(this).attr("data-band");
+        $("button").on("click", function () {
+          // In this case, the "this" keyword refers to the button that was clicked
+          var band = $(this).attr("data-band");
 
-      // Constructing a URL to search Giphy for the name of the person who said the quote
-      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-        band + "&api_key=GM4kMDlabpdkJzdt5yaB9i81C2p8lgTk&limit=10";
+          // Constructing a URL to search Giphy for the name of the person who said the quote
+          var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+            band + "&api_key=GM4kMDlabpdkJzdt5yaB9i81C2p8lgTk&limit=10";
 
-      // Performing our AJAX GET request
-      $.ajax({
-        url: queryURL,
-        method: "GET"
-      })
-        // After the data comes back from the API
-        .then(function(response) {
-          // Storing an array of results in the results variable
-          var results = response.data;
+          // Performing our AJAX GET request
+          $.ajax({
+            url: queryURL,
+            method: "GET"
+          })
+            // After the data comes back from the API
+            .then(function (response) {
+              // Storing an array of results in the results variable
+              var results = response.data;
 
-          // Looping over every result item
-          for (var i = 0; i < results.length; i++) {
+              // Looping over every result item
+              for (var i = 0; i < results.length; i++) {
 
-            // Only taking action if the photo has an appropriate rating
-            if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
-              // Creating a div for the gif
-              var gifDiv = $("<div>");
+                // Only taking action if the photo has an appropriate rating
+                if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
+                  // Creating a div for the gif
+                  var gifDiv = $("<div>");
 
-              // Storing the result item's rating
-              var rating = results[i].rating;
+                  // Storing the result item's rating
+                  var rating = results[i].rating;
 
-              // Creating a paragraph tag with the result item's rating
-              var p = $("<p>").text("Rating: " + rating);
+                  // Creating a paragraph tag with the result item's rating
+                  var p = $("<p>").text("Rating: " + rating);
 
-              // Creating an image tag
-              var personImage = $("<img>");
+                  // Creating an image tag
+                  var bandImage = $("<img>");
 
-              // Giving the image tag an src attribute of a proprty pulled off the
-              // result item
-              personImage.attr("src", results[i].images.fixed_height.url);
+                  // Giving the image tag an src attribute of a proprty pulled off the
+                  // result item
+                  bandImage.attr("src", results[i].images.fixed_height.url);
 
-              // Appending the paragraph and personImage we created to the "gifDiv" div we created
-              gifDiv.append(p);
-              gifDiv.append(personImage);
+                  // Appending the paragraph and bandImage we created to the "gifDiv" div we created
+                  gifDiv.append(p);
+                  gifDiv.append(bandImage);
 
-              // Prepending the gifDiv to the "#gifs-appear-here" div in the HTML
-              $("#gifs-appear-here").prepend(gifDiv);
-            }
-          }
+                  // Prepending the gifDiv to the "#gifs-appear-here" div in the HTML
+                  $("#gifs-appear-here").prepend(gifDiv);
+                }
+              }
+            });
         });
-    });
-  
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        </script>
+
+
+
+
+
+
+
+
+      </script>
+    </div>
 </body>
+
 </html>
